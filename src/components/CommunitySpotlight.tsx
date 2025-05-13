@@ -50,7 +50,7 @@ const CommunitySpotlight = () => {
                 <span className='text-4xl'>{member.name.substring(0,1)}</span>
               </div>
               <h3 className="text-xl font-semibold text-light-text mb-2">{member.name}</h3>
-              <p className="text-medium-text text-sm mb-3 italic flex-grow">"{member.testimonial}"</p>
+              <p className="text-medium-text text-sm mb-3 italic flex-grow">{member.testimonial}</p>
               <div className="flex justify-center mt-auto">
                 {[...Array(5)].map((_, i) => (
                   <svg key={i} className={`w-5 h-5 ${i < member.stars ? 'text-yellow-400' : 'text-gray-600'}`} fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">

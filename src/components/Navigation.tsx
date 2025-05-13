@@ -1,33 +1,35 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react"; // Using lucide-react for icons
+import { useCallback, useEffect, useState } from "react"; // Added useCallback
+import { Menu, X } from "lucide-react";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const controlNavbar = () => {
+  // Memoize controlNavbar with useCallback to prevent re-creation on every render
+  const controlNavbar = useCallback(() => {
     if (typeof window !== "undefined") {
       if (window.scrollY > 80 && window.scrollY > lastScrollY) {
         setIsScrolled(true); // Scrolled down and past a certain point
       } else {
         setIsScrolled(false); // Scrolled up or near the top
       }
-      setLastScrollY(window.scrollY);
+      setLastScrollY(window.scrollY); // Update lastScrollY state
     }
-  };
+  }, [lastScrollY, setIsScrolled, setLastScrollY]); // Dependencies for useCallback
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       window.addEventListener("scroll", controlNavbar);
+      // Cleanup function to remove the event listener
       return () => {
         window.removeEventListener("scroll", controlNavbar);
       };
     }
-  }, [lastScrollY]);
+  }, [controlNavbar]); // useEffect now depends on the memoized controlNavbar
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
